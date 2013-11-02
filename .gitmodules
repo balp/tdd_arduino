@@ -1,0 +1,9 @@
+[submodule "gmock"]
+	path = gmock
+	url = https://chromium.googlesource.com/external/googlemock
+[submodule "gtest"]
+	path = gtest
+	url = https://chromium.googlesource.com/external/googletest
+[submodule "arduino-cmake"]
+	path = arduino-cmake
+	url = https://github.com/balp/arduino-cmake.git
