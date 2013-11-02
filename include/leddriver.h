@@ -1,31 +1,45 @@
 #include "Arduino.h"
 
 class LedDriver {
+  private:
+    int activeRow;
+    int m_matrix[5][5];
+    int m_rows[5];
+    int m_cols[5];
   public:
-    static const int ROW0PIN = 13;
-    static const int ROW1PIN = 12;
-    static const int ROW2PIN = 8;
-    static const int ROW3PIN = 7;
-    static const int ROW4PIN = 4;
-    static const int COL0PIN = 5;
-    static const int COL1PIN = 6;
-    static const int COL2PIN = 9;
-    static const int COL3PIN = 10;
-    static const int COL4PIN = 11;
+    LedDriver( int row0pin, int row1pin, int row2pin, int row3pin, int row4pin, int col0pin,
+        int col1pin, int col2pin, int col3pin, int col4pin) : activeRow(-1) {
+      memset(m_matrix, 0, sizeof(m_matrix));
+      m_rows[0] = row0pin;
+      m_rows[1] = row1pin;
+      m_rows[2] = row2pin;
+      m_rows[3] = row3pin;
+      m_rows[4] = row4pin;
+      m_cols[0] = col0pin;
+      m_cols[1] = col1pin;
+      m_cols[2] = col2pin;
+      m_cols[3] = col3pin;
+      m_cols[4] = col4pin;
+
+    }
     void init() {
-      pinMode(ROW0PIN, OUTPUT);
-      pinMode(ROW1PIN, OUTPUT);
-      pinMode(ROW2PIN, OUTPUT);
-      pinMode(ROW3PIN, OUTPUT);
-      pinMode(ROW4PIN, OUTPUT);
+      for(int i = 0 ; i < 5 ; ++i) {
+        pinMode(m_rows[i], OUTPUT);
+        pinMode(m_cols[i], OUTPUT);
+      }
     }
     void display() {
-      digitalWrite(ROW0PIN, HIGH);
-      digitalWrite(COL0PIN, HIGH);
-      digitalWrite(COL1PIN, HIGH);
-      digitalWrite(COL2PIN, HIGH);
-      digitalWrite(COL3PIN, HIGH);
-      digitalWrite(COL4PIN, HIGH);
+      if(activeRow >= 0) {
+        digitalWrite(m_rows[activeRow], LOW);
+      }
+      activeRow = activeRow + 1 % 5;
+      for(int i = 0 ; i < 5 ; ++i) {
+        digitalWrite(m_cols[i], m_matrix[activeRow][i] ? LOW : HIGH);
+      }
+      digitalWrite(m_rows[activeRow], HIGH);
+    }
+    void show(int matrix[5][5]) {
+      memcpy(m_matrix, matrix, sizeof(m_matrix));
     }
 };
 
