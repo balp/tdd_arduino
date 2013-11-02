@@ -65,8 +65,16 @@ else()
     test/timer_test.cpp
     arduino-mock/arduino.cpp
     )
-  target_link_libraries(timer_test gtest gmock gmock_main )
+  target_link_libraries(timer_test gtest gmock gmock_main)
   add_test(AllTestsForTimer timer_test  --gtest_color=on --gtest_output=xml)
+
+  add_executable(leddriver_test
+    include/leddriver.h
+    test/leddriver_test.cpp
+    arduino-mock/arduino.cpp
+    )
+  target_link_libraries(leddriver_test gtest gmock gmock_main)
+  add_test(AllTestsForLedDriver leddriver_test --gtest_color=on --gtest_output=xml)
 
 endif()
 
