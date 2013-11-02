@@ -11,10 +11,13 @@ if(MSVC)
 endif()
 
 if(ARDUINO_FOUND)
-  include_directories( avr-stl/include )
+  include_directories(
+      ${CMAKE_SOURCE_DIR}
+      ${CMAKE_SOURCE_DIR}/include
+      )
 
   generate_arduino_firmware(gameoflife
-      HDRS include/debug.h
+      HDRS include/debug.h include/timer.h
       SRCS src/main.cpp src/gameoflife.cpp
       PORT ${BOARDPORT}
       BOARD uno
@@ -25,8 +28,9 @@ else()
   include_directories(${gmock_SOURCE_DIR}/include
       ${gtest_SOURCE_DIR}/include
       ${CMAKE_SOURCE_DIR}
+      ${CMAKE_SOURCE_DIR}/include
       ${CMAKE_BINARY_DIR}
-      ${CMAKE_SOURCE_DIR}/ArduinoMock )
+      ${CMAKE_SOURCE_DIR}/arduino-mock )
 
 
   # This is a hack to make Visual Studio build gtest correct.
@@ -50,29 +54,19 @@ else()
   endif()
 
 
-#  add_executable(engine_test
-#      engine.h
-#      test/engine_test.cpp
-#      ArduinoMock/arduino.cpp
-#      )
-#  target_link_libraries(engine_test gtest gmock gmock_main )
-#  add_test(AllTestsInEngine engine_test  --gtest_color=on --gtest_output=xml)
-#
+  # This shows how to make a google mock class for an interface
 #  add_custom_command(OUTPUT EngineMock.h
 #      COMMAND ${gmock_SOURCE_DIR}/scripts/generator/gmock_gen.py ${CMAKE_SOURCE_DIR}/engine.h > EngineMock.h
 #      DEPENDS ${CMAKE_SOURCE_DIR}/engine.h
 #      )
-#
-#  add_executable(driver_test
-#      driver.h
-#      engine.h
-#      EngineMock.h
-#      test/driver_test.cpp
-#      ArduinoMock/arduino.cpp
-#      )
-#  target_link_libraries(driver_test gtest gmock gmock_main )
-#  add_test(AllTestsInDriver driver_test  --gtest_color=on --gtest_output=xml)
 
+  add_executable(timer_test
+    include/timer.h
+    test/timer_test.cpp
+    arduino-mock/arduino.cpp
+    )
+  target_link_libraries(timer_test gtest gmock gmock_main )
+  add_test(AllTestsForTimer timer_test  --gtest_color=on --gtest_output=xml)
 
 endif()
 
