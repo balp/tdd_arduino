@@ -111,7 +111,7 @@ TEST_F(TestLedDriver, DefaultShouldColumsBeOff)
 TEST_F(TestLedDriver, FirstColumWithOneLit)
 {
   int matrix[5][5] = {{0,0,0,0,1}, {0,0,0,0,0}, {0,0,0,0,0}, {0,0,0,0,0}, {0,0,0,0,0}};
-  ledDriver.show(matrix);
+  ledDriver.show((int*)matrix);
   ignoreRows();
   expectCols(HIGH, HIGH, HIGH, HIGH, LOW);
   ledDriver.display();
@@ -120,7 +120,7 @@ TEST_F(TestLedDriver, FirstColumWithOneLit)
 TEST_F(TestLedDriver, SecondColumnWithOneLit)
 {
   int matrix[5][5] = {{0,0,0,0,0}, {0,0,0,1,0}, {0,0,0,0,0}, {0,0,0,0,0}, {0,0,0,0,0}};
-  ledDriver.show(matrix);
+  ledDriver.show((int*)matrix);
   EXPECT_CALL(*arduinoMock, digitalWrite(_, _)).Times(AnyNumber());
   ledDriver.display();
   Mock::VerifyAndClearExpectations(arduinoMock);
@@ -132,7 +132,7 @@ TEST_F(TestLedDriver, SecondColumnWithOneLit)
 TEST_F(TestLedDriver, ThirdRowWithOneLit)
 {
   int matrix[5][5] = {{0,0,0,0,0}, {0,0,0,0,0}, {0,0,1,0,0}, {0,0,0,0,0}, {0,0,0,0,0}};
-  ledDriver.show(matrix);
+  ledDriver.show((int*)matrix);
   EXPECT_CALL(*arduinoMock, digitalWrite(_, _)).Times(AnyNumber());
   ledDriver.display();
   ledDriver.display();

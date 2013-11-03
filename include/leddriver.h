@@ -1,6 +1,13 @@
+#ifndef LEDDRIVER_H
+#define LEDDRIVER_H
 #include "Arduino.h"
 
-class LedDriver {
+class MatrixShower {
+  public:
+    virtual void show(int *matrix) = 0;
+};
+
+class LedDriver : public MatrixShower {
   private:
     int activeRow;
     int m_matrix[5][5];
@@ -32,14 +39,15 @@ class LedDriver {
       if(activeRow >= 0) {
         digitalWrite(m_rows[activeRow], LOW);
       }
-      activeRow = activeRow + 1 % 5;
+      activeRow = (activeRow + 1) % 5;
       for(int i = 0 ; i < 5 ; ++i) {
         digitalWrite(m_cols[i], m_matrix[activeRow][i] ? LOW : HIGH);
       }
       digitalWrite(m_rows[activeRow], HIGH);
     }
-    void show(int matrix[5][5]) {
+    virtual void show(int *matrix) {
       memcpy(m_matrix, matrix, sizeof(m_matrix));
     }
 };
 
+#endif // LEDDRIVER_H
