@@ -13,7 +13,7 @@ static const int COL4PIN = 11;
 using ::testing::AnyNumber;
 using ::testing::Not;
 using ::testing::_;
-const static int cols[5] = {COL0PIN, COL1PIN, COL2PIN, COL3PIN, COL4PIN};
+const static int cols[LEDDriver::NOCOLUMS] = {COL0PIN, COL1PIN, COL2PIN, COL3PIN, COL4PIN};
 
 class TestLedDriver : public ::testing::Test {
 protected:

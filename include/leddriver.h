@@ -3,19 +3,20 @@
 
 class LEDDriver
 {
+public:
+	static const int NOCOLUMS = 5;
+private:
 	int m_row0pin;
-	int m_colums[5];
+	int m_colums[NOCOLUMS];
 
 public:
-	LEDDriver(int row0pin, const int colums[5]) : m_row0pin(row0pin) {
+	LEDDriver(int row0pin, const int colums[NOCOLUMS]) : m_row0pin(row0pin) {
 		memcpy(m_colums, colums, sizeof(m_colums));
 	}
 	void display() {
 		digitalWrite(m_row0pin, HIGH);
-		digitalWrite(m_colums[0], HIGH);
-		digitalWrite(m_colums[1], HIGH);
-		digitalWrite(m_colums[2], HIGH);
-		digitalWrite(m_colums[3], HIGH);
-		digitalWrite(m_colums[4], HIGH);
+		for(int i = 0 ; i < NOCOLUMS ; ++i) {
+			digitalWrite(m_colums[i], HIGH);
+		}
 	}
 };
