@@ -5,6 +5,7 @@
 
 static const int ROW0PIN = 13;
 static const int COL0PIN = 5;
+static const int COL1PIN = 6;
 
 using ::testing::AnyNumber;
 using ::testing::Not;
@@ -37,3 +38,9 @@ TEST_F(TestLedDriver, DefaultShouldHaveFirstLedLedInFirstRowOff)
 	ledDriver.display();
 }
 
+TEST_F(TestLedDriver, DefaultShouldHaveSecondLedLedInFirstRowOff)
+{
+	EXPECT_CALL(*arduinoMock, digitalWrite(Not(COL1PIN), _)).Times(AnyNumber());
+	EXPECT_CALL(*arduinoMock, digitalWrite(COL1PIN, HIGH));
+	ledDriver.display();
+}
