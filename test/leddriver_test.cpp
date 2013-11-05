@@ -7,16 +7,20 @@ static const int ROW0PIN = 13;
 static const int COL0PIN = 5;
 static const int COL1PIN = 6;
 static const int COL2PIN = 9;
+static const int COL3PIN = 10;
+static const int COL4PIN = 11;
 
 using ::testing::AnyNumber;
 using ::testing::Not;
 using ::testing::_;
+const static int cols[5] = {COL0PIN, COL1PIN, COL2PIN, COL3PIN, COL4PIN};
 
 class TestLedDriver : public ::testing::Test {
 protected:
 	ArduinoMock *arduinoMock;
 	LEDDriver ledDriver;
-	TestLedDriver() : ledDriver(ROW0PIN, COL0PIN, COL1PIN, COL2PIN) {}
+	
+	TestLedDriver() : ledDriver(ROW0PIN, cols) {}
 	void SetUp() {
 		arduinoMock = arduinoMockInstance();
 	}
