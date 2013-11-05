@@ -15,5 +15,6 @@ public:
 		digitalWrite(m_colums[0], HIGH);
 		digitalWrite(m_colums[1], HIGH);
 		digitalWrite(m_colums[2], HIGH);
+		digitalWrite(m_colums[3], HIGH);
 	}
 };

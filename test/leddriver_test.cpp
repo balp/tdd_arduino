@@ -56,3 +56,10 @@ TEST_F(TestLedDriver, DefaultShouldHaveThirdLedInFirstRowOff)
 	EXPECT_CALL(*arduinoMock, digitalWrite(COL2PIN, HIGH));
 	ledDriver.display();
 }
+
+TEST_F(TestLedDriver, DefaultShouldHaveForthLedInFirstRowOff)
+{
+	EXPECT_CALL(*arduinoMock, digitalWrite(Not(COL3PIN), _)).Times(AnyNumber());
+	EXPECT_CALL(*arduinoMock, digitalWrite(COL3PIN, HIGH));
+	ledDriver.display();
+}
