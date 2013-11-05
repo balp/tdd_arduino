@@ -4,6 +4,7 @@
 #include "Arduino.h"
 
 static const int ROW0PIN = 13;
+static const int COL0PIN = 5;
 
 TEST(TestLedDriver, FirstCallToDisplayCallShouldLightRow0)
 {
@@ -16,3 +17,13 @@ TEST(TestLedDriver, FirstCallToDisplayCallShouldLightRow0)
 
 	releaseArduinoMock();
 }
+
+TEST(TestLedDriver, DefaultShouldHaveFirstLedLedInFirstRowOff)
+{
+	ArduinoMock *arduinoMock = arduinoMockInstance();
+	EXPECT_CALL(*arduinoMock, digitalWrite(COL0PIN, HIGH));
+	LEDDriver ledDriver(ROW0PIN);
+	ledDriver.display();
+	releaseArduinoMock();
+}
+
