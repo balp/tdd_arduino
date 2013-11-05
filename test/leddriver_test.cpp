@@ -10,26 +10,30 @@ using ::testing::AnyNumber;
 using ::testing::Not;
 using ::testing::_;
 
-TEST(TestLedDriver, FirstCallToDisplayCallShouldLightRow0)
-{
-	ArduinoMock *arduinoMock = arduinoMockInstance();
+class TestLedDriver : public ::testing::Test {
+protected:
+	ArduinoMock *arduinoMock;
+	LEDDriver ledDriver;
+	TestLedDriver() : ledDriver(ROW0PIN, COL0PIN) {}
+	void SetUp() {
+		arduinoMock = arduinoMockInstance();
+	}
+	void TearDown() {
+		releaseArduinoMock();
+	}
+};
 
+TEST_F(TestLedDriver, FirstCallToDisplayCallShouldLightRow0)
+{
 	EXPECT_CALL(*arduinoMock, digitalWrite(Not(ROW0PIN), _)).Times(AnyNumber());
 	EXPECT_CALL(*arduinoMock, digitalWrite(ROW0PIN, HIGH)).Times(1);
-
-	LEDDriver ledDriver(ROW0PIN);
 	ledDriver.display();
-
-	releaseArduinoMock();
 }
 
-TEST(TestLedDriver, DefaultShouldHaveFirstLedLedInFirstRowOff)
+TEST_F(TestLedDriver, DefaultShouldHaveFirstLedLedInFirstRowOff)
 {
-	ArduinoMock *arduinoMock = arduinoMockInstance();
 	EXPECT_CALL(*arduinoMock, digitalWrite(Not(COL0PIN), _)).Times(AnyNumber());
 	EXPECT_CALL(*arduinoMock, digitalWrite(COL0PIN, HIGH));
-	LEDDriver ledDriver(ROW0PIN);
 	ledDriver.display();
-	releaseArduinoMock();
 }
 
