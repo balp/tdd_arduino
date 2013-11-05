@@ -6,6 +6,7 @@
 static const int ROW0PIN = 13;
 static const int COL0PIN = 5;
 static const int COL1PIN = 6;
+static const int COL2PIN = 9;
 
 using ::testing::AnyNumber;
 using ::testing::Not;
@@ -15,7 +16,7 @@ class TestLedDriver : public ::testing::Test {
 protected:
 	ArduinoMock *arduinoMock;
 	LEDDriver ledDriver;
-	TestLedDriver() : ledDriver(ROW0PIN, COL0PIN, COL1PIN) {}
+	TestLedDriver() : ledDriver(ROW0PIN, COL0PIN, COL1PIN, COL2PIN) {}
 	void SetUp() {
 		arduinoMock = arduinoMockInstance();
 	}
@@ -42,5 +43,12 @@ TEST_F(TestLedDriver, DefaultShouldHaveSecondLedInFirstRowOff)
 {
 	EXPECT_CALL(*arduinoMock, digitalWrite(Not(COL1PIN), _)).Times(AnyNumber());
 	EXPECT_CALL(*arduinoMock, digitalWrite(COL1PIN, HIGH));
+	ledDriver.display();
+}
+
+TEST_F(TestLedDriver, DefaultShouldHaveThirdLedInFirstRowOff)
+{
+	EXPECT_CALL(*arduinoMock, digitalWrite(Not(COL2PIN), _)).Times(AnyNumber());
+	EXPECT_CALL(*arduinoMock, digitalWrite(COL2PIN, HIGH));
 	ledDriver.display();
 }
