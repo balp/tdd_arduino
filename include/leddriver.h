@@ -4,5 +4,7 @@
 class LEDDriver
 {
 public:
-	void display() {}
+	void display() {
+		digitalWrite(13, HIGH);
+	}
 };
