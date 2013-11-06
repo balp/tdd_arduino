@@ -89,3 +89,12 @@ TEST_F(TestLedDriver, SecondCallShouldTurnRowOneOffAndRowTwoOn)
 	EXPECT_CALL(*arduinoMock, digitalWrite(Not(AnyOf(ROW0PIN, ROW1PIN)), _)).Times(AnyNumber());
 	ledDriver.display();
 }
+
+TEST_F(TestLedDriver, LightingFirstLEdInFirstRow)
+{
+	int matrix[5][5] = { {1,0,0,0,0}, {0,0,0,0,0}, {0,0,0,0,0}, {0,0,0,0,0}, {0,0,0,0,0} };
+	ledDriver.show((int*)matrix);
+	EXPECT_CALL(*arduinoMock, digitalWrite(Not(COL0PIN), _)).Times(AnyNumber());
+	EXPECT_CALL(*arduinoMock, digitalWrite(COL0PIN, LOW));
+	ledDriver.display();
+};

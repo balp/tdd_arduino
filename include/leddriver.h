@@ -16,6 +16,7 @@ public:
 		memcpy(m_colums, colums, sizeof(m_colums));
 		memcpy(m_rows, rows, sizeof(m_rows));
 	}
+	void show(const int* matrix) {}
 	void display() {
 		if(m_row >= 0) {
 			digitalWrite(m_rows[m_row], LOW);
