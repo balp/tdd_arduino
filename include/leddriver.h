@@ -5,18 +5,25 @@ class LEDDriver
 {
 public:
 	static const int NOCOLUMS = 5;
+	static const int NOROWS = 5;
 private:
-	int m_row0pin;
+	int m_rows[NOROWS];
 	int m_colums[NOCOLUMS];
+	int m_row;
 
 public:
-	LEDDriver(int row0pin, const int colums[NOCOLUMS]) : m_row0pin(row0pin) {
+	LEDDriver(const int rows[NOROWS], const int colums[NOCOLUMS]) : m_row(-1) {
 		memcpy(m_colums, colums, sizeof(m_colums));
+		memcpy(m_rows, rows, sizeof(m_rows));
 	}
 	void display() {
-		digitalWrite(m_row0pin, HIGH);
+		if(m_row >= 0) {
+			digitalWrite(m_rows[m_row], LOW);
+		}
+		++m_row;
 		for(int i = 0 ; i < NOCOLUMS ; ++i) {
 			digitalWrite(m_colums[i], HIGH);
 		}
+		digitalWrite(m_rows[m_row], HIGH);
 	}
 };

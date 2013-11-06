@@ -5,6 +5,9 @@
 
 static const int ROW0PIN = 13;
 static const int ROW1PIN = 12;
+static const int ROW2PIN = 8;
+static const int ROW3PIN = 7;
+static const int ROW4PIN = 4;
 static const int COL0PIN = 5;
 static const int COL1PIN = 6;
 static const int COL2PIN = 9;
@@ -17,13 +20,14 @@ using ::testing::Mock;
 using ::testing::Not;
 using ::testing::_;
 const static int cols[LEDDriver::NOCOLUMS] = {COL0PIN, COL1PIN, COL2PIN, COL3PIN, COL4PIN};
+const static int rows[LEDDriver::NOROWS] = {ROW0PIN, ROW1PIN, ROW2PIN, ROW3PIN, ROW4PIN};
 
 class TestLedDriver : public ::testing::Test {
 protected:
 	ArduinoMock *arduinoMock;
 	LEDDriver ledDriver;
 	
-	TestLedDriver() : ledDriver(ROW0PIN, cols) {}
+	TestLedDriver() : ledDriver(rows, cols) {}
 	void SetUp() {
 		arduinoMock = arduinoMockInstance();
 	}
