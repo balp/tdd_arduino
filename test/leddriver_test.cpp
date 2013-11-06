@@ -4,6 +4,7 @@
 #include "Arduino.h"
 
 static const int ROW0PIN = 13;
+static const int ROW1PIN = 12;
 static const int COL0PIN = 5;
 static const int COL1PIN = 6;
 static const int COL2PIN = 9;
@@ -11,6 +12,8 @@ static const int COL3PIN = 10;
 static const int COL4PIN = 11;
 
 using ::testing::AnyNumber;
+using ::testing::AnyOf;
+using ::testing::Mock;
 using ::testing::Not;
 using ::testing::_;
 const static int cols[LEDDriver::NOCOLUMS] = {COL0PIN, COL1PIN, COL2PIN, COL3PIN, COL4PIN};
@@ -68,5 +71,17 @@ TEST_F(TestLedDriver, DefaultShouldHaveFifthLedInFirstRowOff)
 {
 	EXPECT_CALL(*arduinoMock, digitalWrite(Not(COL4PIN), _)).Times(AnyNumber());
 	EXPECT_CALL(*arduinoMock, digitalWrite(COL4PIN, HIGH));
+	ledDriver.display();
+}
+
+TEST_F(TestLedDriver, SecondCallShouldTurnRowOneOffAndRowTwoOn)
+{
+	EXPECT_CALL(*arduinoMock, digitalWrite(_, _)).Times(AnyNumber());
+	ledDriver.display();
+	Mock::VerifyAndClearExpectations(arduinoMock);
+		
+	EXPECT_CALL(*arduinoMock, digitalWrite(ROW0PIN, LOW)).Times(1);
+	EXPECT_CALL(*arduinoMock, digitalWrite(ROW1PIN, HIGH)).Times(1);
+	EXPECT_CALL(*arduinoMock, digitalWrite(Not(AnyOf(ROW0PIN, ROW1PIN)), _)).Times(AnyNumber());
 	ledDriver.display();
 }
