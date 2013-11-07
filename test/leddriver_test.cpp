@@ -111,6 +111,6 @@ TEST_F(TestLedDriver, MakeSureThatTheRowsAreWrapping)
 		
 	EXPECT_CALL(*arduinoMock, digitalWrite(ROW4PIN, LOW)).Times(1);
 	EXPECT_CALL(*arduinoMock, digitalWrite(ROW0PIN, HIGH)).Times(1);
-	EXPECT_CALL(*arduinoMock, digitalWrite(Not(AnyOf(ROW0PIN, ROW1PIN)), _)).Times(AnyNumber());
+	EXPECT_CALL(*arduinoMock, digitalWrite(Not(AnyOf(ROW4PIN, ROW0PIN)), _)).Times(AnyNumber());
 	ledDriver.display();
 }

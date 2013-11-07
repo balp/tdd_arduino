@@ -25,7 +25,7 @@ public:
 		if(m_row >= 0) {
 			digitalWrite(m_rows[m_row], LOW);
 		}
-		++m_row;
+		m_row = (m_row+1) % NOROWS;
 		for(int i = 0 ; i < NOCOLUMS ; ++i) {
 			if(m_data[m_row][i]) {
 				digitalWrite(m_colums[i], LOW);
