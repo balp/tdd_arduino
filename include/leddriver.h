@@ -1,7 +1,16 @@
-
+#ifndef LEDDRIVER_H
+#define LEDDRIVER_H
 #include "Arduino.h"
 
-class LEDDriver
+class DisplayUpdater
+{
+public:
+	virtual ~DisplayUpdater() {}
+	virtual void show(const int* matrix) = 0;
+	virtual void display() = 0;
+};
+
+class LEDDriver :public DisplayUpdater
 {
 public:
 	static const int NOCOLUMS = 5;
@@ -18,10 +27,10 @@ public:
 		memcpy(m_rows, rows, sizeof(m_rows));
 		memset(m_data, 0, sizeof(m_data));
 	}
-	void show(const int* matrix) {
+	virtual void show(const int* matrix) {
 		memcpy(m_data, matrix, sizeof(m_data));
 	}
-	void display() {
+	virtual void display() {
 		if(m_row >= 0) {
 			digitalWrite(m_rows[m_row], LOW);
 		}
@@ -36,3 +45,5 @@ public:
 		digitalWrite(m_rows[m_row], HIGH);
 	}
 };
+
+#endif // LEDDRIVER_H

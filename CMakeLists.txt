@@ -54,11 +54,6 @@ else()
   endif()
 
 
-  # This shows how to make a google mock class for an interface
-#  add_custom_command(OUTPUT EngineMock.h
-#      COMMAND ${gmock_SOURCE_DIR}/scripts/generator/gmock_gen.py ${CMAKE_SOURCE_DIR}/engine.h > EngineMock.h
-#      DEPENDS ${CMAKE_SOURCE_DIR}/engine.h
-#      )
 
   add_executable(timer_test
     include/timer.h
@@ -75,6 +70,19 @@ else()
       )
   target_link_libraries(leddriver_test gtest gmock gmock_main )
   add_test(AllTestsForLedDriver leddriver_test  --gtest_color=on --gtest_output=xml)
+
+  add_custom_command(OUTPUT LedDriverMock.h
+    COMMAND ${gmock_SOURCE_DIR}/scripts/generator/gmock_gen.py ${CMAKE_SOURCE_DIR}/include/leddriver.h > LedDriverMock.h
+    DEPENDS ${CMAKE_SOURCE_DIR}/include/leddriver.h
+    )
+  add_executable(gameoflife_test
+      ${CMAKE_BINARY_DIR}/LedDriverMock.h
+	  include/gameoflife.h
+      test/gameoflife_test.cpp
+      arduino-mock/arduino.cpp
+      )
+  target_link_libraries(gameoflife_test gtest gmock gmock_main )
+  add_test(AllTestsForLedDriver gameoflife_test  --gtest_color=on --gtest_output=xml)
 
 endif()
 
