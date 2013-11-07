@@ -98,3 +98,19 @@ TEST_F(TestLedDriver, LightingFirstLEdInFirstRow)
 	EXPECT_CALL(*arduinoMock, digitalWrite(COL0PIN, LOW));
 	ledDriver.display();
 };
+
+TEST_F(TestLedDriver, MakeSureThatTheRowsAreWrapping)
+{
+	EXPECT_CALL(*arduinoMock, digitalWrite(_, _)).Times(AnyNumber());
+	ledDriver.display(); // row 0
+	ledDriver.display(); // row 1
+	ledDriver.display(); // row 2
+	ledDriver.display(); // row 3
+	ledDriver.display(); // row 4
+	Mock::VerifyAndClearExpectations(arduinoMock);
+		
+	EXPECT_CALL(*arduinoMock, digitalWrite(ROW4PIN, LOW)).Times(1);
+	EXPECT_CALL(*arduinoMock, digitalWrite(ROW0PIN, HIGH)).Times(1);
+	EXPECT_CALL(*arduinoMock, digitalWrite(Not(AnyOf(ROW0PIN, ROW1PIN)), _)).Times(AnyNumber());
+	ledDriver.display();
+}
