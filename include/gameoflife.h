@@ -24,7 +24,7 @@ public:
 		int result[LEDDriver::NOROWS][LEDDriver::NOCOLUMS] = { 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0 };
 		for(int x = 0 ; x < LEDDriver::NOROWS; ++x) {
 			for(int y = 0; y < LEDDriver::NOCOLUMS; ++y) {
-				if( m_previus[x][y] && ( noNeighbours(x,y) == 2 || noNeighbours(x,y) == 3)) {
+				if( (m_previus[x][y] &&  noNeighbours(x,y) == 2) || noNeighbours(x,y) == 3) {
 					result[x][y] = 1;
 				}
 			}
