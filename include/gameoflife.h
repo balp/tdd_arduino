@@ -21,14 +21,14 @@ public:
 		memcpy(m_previus, seed, sizeof(m_previus));
 	}
 	void tick() {
-		int result[] = { 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0 };
+		int result[LEDDriver::NOROWS][LEDDriver::NOCOLUMS] = { 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0 };
 		for(int x = 0 ; x < LEDDriver::NOROWS; ++x) {
 			for(int y = 0; y < LEDDriver::NOCOLUMS; ++y) {
 				if( noNeighbours(x,y) == 2 || noNeighbours(x,y) == 3) {
-					result[x*LEDDriver::NOCOLUMS + y] = 1;
+					result[x][y] = 1;
 				}
 			}
 		}
-		m_driver->show(result); 
+		m_driver->show((const int*)result); 
 	}
 };
