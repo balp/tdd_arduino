@@ -20,3 +20,12 @@ TEST(TestGameOfLife, ALiveCellWithNoNeightBoursDie)
 	GameOfLife gameoflife(&mockdriver, startseed);
 	gameoflife.tick();
 }
+
+TEST(TestGameOfLife, ALifeCellWithTwoNeighboursStaysAlive)
+{
+	MockDisplayUpdater mockdriver;
+	int startseed[] = {0,0,0,0,0, 0,0,0,0,0, 0,1,1,1,0, 0,0,0,0,0, 0,0,0,0,0};
+	EXPECT_CALL(mockdriver, show(CenterPixelIs(1))).Times(1);
+	GameOfLife gameoflife(&mockdriver, startseed);
+	gameoflife.tick();
+}
