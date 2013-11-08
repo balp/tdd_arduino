@@ -12,29 +12,40 @@ MATCHER_P(CenterPixelIs, value, "")
 		+ (LEDDriver::NOCOLUMS/2)] == value;
 }
 
-TEST(TestGameOfLife, ALiveCellWithNoNeightBoursDie)
-{
+class TestGameOfLife : public ::testing::Test {
+protected:
 	MockDisplayUpdater mockdriver;
+	TestGameOfLife() {
+	}
+};
+
+TEST_F(TestGameOfLife, ALiveCellWithNoNeightBoursDie)
+{
 	int startseed[] = {0,0,0,0,0, 0,0,0,0,0, 0,0,1,0,0, 0,0,0,0,0, 0,0,0,0,0};
 	EXPECT_CALL(mockdriver, show(CenterPixelIs(0))).Times(1);
 	GameOfLife gameoflife(&mockdriver, startseed);
 	gameoflife.tick();
 }
 
-TEST(TestGameOfLife, ALifeCellWithTwoNeighboursStaysAlive)
+TEST_F(TestGameOfLife, ALifeCellWithTwoNeighboursStaysAlive)
 {
-	MockDisplayUpdater mockdriver;
 	int startseed[] = {0,0,0,0,0, 0,0,0,0,0, 0,1,1,1,0, 0,0,0,0,0, 0,0,0,0,0};
 	EXPECT_CALL(mockdriver, show(CenterPixelIs(1))).Times(1);
 	GameOfLife gameoflife(&mockdriver, startseed);
 	gameoflife.tick();
 }
 
-TEST(TestGameOfLife, ALifeCellWithTreeNeighboursStaysAlive)
+TEST_F(TestGameOfLife, ALifeCellWithTreeNeighboursStaysAlive)
 {
-	MockDisplayUpdater mockdriver;
 	int startseed[] = {0,0,0,0,0, 0,1,1,0,0, 0,0,1,1,0, 0,0,0,0,0, 0,0,0,0,0};
 	EXPECT_CALL(mockdriver, show(CenterPixelIs(1))).Times(1);
+	GameOfLife gameoflife(&mockdriver, startseed);
+	gameoflife.tick();
+}
+TEST_F(TestGameOfLife, ADeadCellWithTwoNeighboursIsStillDead)
+{
+	int startseed[] = {0,0,0,0,0, 0,1,0,1,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0};
+	EXPECT_CALL(mockdriver, show(CenterPixelIs(0))).Times(1);
 	GameOfLife gameoflife(&mockdriver, startseed);
 	gameoflife.tick();
 }
