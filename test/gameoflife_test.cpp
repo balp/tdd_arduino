@@ -49,3 +49,10 @@ TEST_F(TestGameOfLife, ADeadCellWithTwoNeighboursIsStillDead)
 	GameOfLife gameoflife(&mockdriver, startseed);
 	gameoflife.tick();
 }
+TEST_F(TestGameOfLife, ADeadCellWithThreeNeighboursIsGetsBorn)
+{
+	int startseed[] = {0,0,0,0,0, 0,0,1,0,0, 0,1,0,1,0, 0,0,0,0,0, 0,0,0,0,0};
+	EXPECT_CALL(mockdriver, show(CenterPixelIs(1))).Times(1);
+	GameOfLife gameoflife(&mockdriver, startseed);
+	gameoflife.tick();
+}
