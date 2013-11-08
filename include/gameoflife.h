@@ -29,6 +29,7 @@ public:
 				}
 			}
 		}
-		m_driver->show((const int*)result); 
+		memcpy(m_previus, result, sizeof(m_previus));
+		m_driver->show((const int*)m_previus); 
 	}
 };
