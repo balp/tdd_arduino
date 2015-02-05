@@ -1,6 +1,7 @@
 [submodule "gmock"]
 	path = gmock
 	url = https://chromium.googlesource.com/external/googlemock
+    ignore = untracked
 [submodule "gtest"]
 	path = gtest
 	url = https://chromium.googlesource.com/external/googletest
